@@ -24,5 +24,20 @@ public class MainActivity extends AppCompatActivity {
         continentes = (ListView) findViewById(R.id.continentes); //crea el ListView en el que se mostrarán continentes con iconos y nombres
         AdaptadorListView adaptadorLV = new AdaptadorListView(getApplicationContext(), nombres, imagenes); //Al ser un ListView personalizado se utiliza un objeto adaptador
         continentes.setAdapter(adaptadorLV); //se relaciona el adaptador con el ListView
+
+        this.continentesLVListener(); //Configurar listener del ListView "continentes"
+    }
+
+    private void continentesLVListener() {
+        //Listener del ListView "continentes"
+        //Dependiendo de la fila que se clicke llamara a la actividad del juego con la información del continente seleccionado
+        this.continentes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(MainActivity.this, JuegoActivity.class);
+                intent.putExtra("continente", ((TextView)view.findViewById(R.id.nombre_continente)).getText().toString());
+                startActivity(intent);
+            }
+        });
     }
 }

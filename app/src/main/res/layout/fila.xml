@@ -6,11 +6,13 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
+    <!--ImageView usado para mostrar los iconos de los continentes-->
     <ImageView
         android:id="@+id/imagen_continente"
         android:layout_width="75dp"
         android:layout_height="75dp" />
 
+    <!--TextView usado para mostrar los nombres de los continentes-->
     <TextView
         android:id="@+id/nombre_continente"
         android:layout_width="match_parent"
