@@ -9,8 +9,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
-public class JuegoActivity extends AppCompatActivity {
+public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog.ListenerDialogoSalirJuego {
 
     private String continente;
 
@@ -24,5 +25,21 @@ public class JuegoActivity extends AppCompatActivity {
         if (extras != null) {
             continente = extras.getString("continente");
         }
+    }
+
+    public void onClickSalir(View v) { //Mostrar diálogo al pulsar botón "Salir"
+        DialogFragment dialogSalirJuego = new SalirJuegoDialog();
+        dialogSalirJuego.show(getSupportFragmentManager(), "dialogSalirJuego");
+    }
+
+    @Override
+    public void onBackPressed() { //Mostrar diálogo al pulsar botón back
+        DialogFragment dialogSalirJuego = new SalirJuegoDialog();
+        dialogSalirJuego.show(getSupportFragmentManager(), "dialogSalirJuego");
+    }
+
+    @Override
+    public void onClickSi() { //Al pulsar "Sí" matar la actividad (vuelve al menú principal porque es la última actividad en la pila)
+        finish();
     }
 }

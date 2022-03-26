@@ -19,6 +19,7 @@
             android:id="@+id/salir_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onClickSalir"
             android:text="Salir"
             android:textAlignment="center"
             android:textSize="20sp"

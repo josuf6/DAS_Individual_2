@@ -1,6 +1,7 @@
 package com.example.das_individual_1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  implements SalirAppDialog.ListenerDialogoSalirApp {
 
     ListView continentes;
     String[] nombres = {"África", "América", "Asia", "Europa", "Oceanía"};
@@ -21,16 +22,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        continentes = (ListView) findViewById(R.id.continentes); //crea el ListView en el que se mostrarán continentes con iconos y nombres
+        continentes = (ListView) findViewById(R.id.continentes); //Crea el ListView en el que se mostrarán continentes con iconos y nombres
         AdaptadorListView adaptadorLV = new AdaptadorListView(getApplicationContext(), nombres, imagenes); //Al ser un ListView personalizado se utiliza un objeto adaptador
-        continentes.setAdapter(adaptadorLV); //se relaciona el adaptador con el ListView
+        continentes.setAdapter(adaptadorLV); //Se relaciona el adaptador con el ListView
 
         this.continentesLVListener(); //Configurar listener del ListView "continentes"
     }
 
     private void continentesLVListener() {
         //Listener del ListView "continentes"
-        //Dependiendo de la fila que se clicke llamara a la actividad del juego con la información del continente seleccionado
+        //Dependiendo de la fila que se pulse llamará a la actividad del juego con la información del continente seleccionado
         this.continentes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -39,5 +40,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() { //Mostrar diálogo al pulsar botón back
+        DialogFragment dialogSalirApp = new SalirAppDialog();
+        dialogSalirApp.show(getSupportFragmentManager(), "dialogSalirApp");
+    }
+
+    @Override
+    public void onClickSi() { //Al pulsar "Sí" matar la actividad (Salir de la aplicación, porque no hay ninguna actividad más en la pila)
+        finish();
     }
 }

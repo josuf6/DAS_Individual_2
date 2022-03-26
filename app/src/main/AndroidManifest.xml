@@ -11,14 +11,18 @@
         android:theme="@style/Theme.DAS_Individual_1" >
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:label="@string/app_name" android:name=".JuegoActivity"/>
+        <activity
+            android:name=".JuegoActivity"
+            android:launchMode="singleTask"
+            android:alwaysRetainTaskState="true"/>
     </application>
 
 </manifest>
