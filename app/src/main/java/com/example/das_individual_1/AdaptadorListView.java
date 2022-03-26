@@ -42,7 +42,7 @@ public class AdaptadorListView extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = this.inflater.inflate(R.layout.fila,null);
         TextView nombre = (TextView) view.findViewById(R.id.nombre_continente);
-        ImageView img =(ImageView) view.findViewById(R.id.imagen_continente);
+        ImageView img = (ImageView) view.findViewById(R.id.imagen_continente);
 
         nombre.setText(continentes[i]);
         img.setImageResource(imagenes[i]);
