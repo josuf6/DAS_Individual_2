@@ -2,10 +2,7 @@ package com.example.das_individual_1;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,17 +29,12 @@ public class SalirJuegoDialog extends DialogFragment {
         builder.setMessage("¿Deseas salir al menú principal? Se perderá el progreso de la partida actual.");
 
         //Definir botones y Listeners de los botones
-        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                miListener.onClickSi(); //Al pulsar "Sí" volver al menú principal
-            }
+        builder.setPositiveButton("Sí", (dialogInterface, i) -> {
+            miListener.onClickSi(); //Al pulsar "Sí" volver al menú principal
         });
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {} //No hacer nada al pulsar "No" (se cierra el diálogo)
-        });
+        //No hacer nada al pulsar "No" (se cierra el diálogo)
+        builder.setNegativeButton("No", (dialogInterface, i) -> {});
 
         return builder.create();
     }

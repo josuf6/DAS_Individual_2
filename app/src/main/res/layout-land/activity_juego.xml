@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".JuegoActivity">
+
+    <LinearLayout
+        android:layout_width="400dp"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <!--ImageView usado para mostrar banderas-->
+        <ImageView
+            android:id="@+id/bandera"
+            android:layout_width="250dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="20dp">
+
+        <!--Button usado para la primera opción de respuesta-->
+        <Button
+            android:id="@+id/opcion_1_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onClickOpcion"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!--Button usado para la segunda opción de respuesta-->
+        <Button
+            android:id="@+id/opcion_2_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onClickOpcion"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!--Button usado para la tercera opción de respuesta-->
+        <Button
+            android:id="@+id/opcion_3_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="onClickOpcion"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/jugar_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_gravity="top|center"
+                android:onClick="onClickJugar"
+                android:text="Volver a jugar"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/siguiente_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_gravity="top|center"
+                android:onClick="onClickSiguiente"
+                android:text="Siguiente"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

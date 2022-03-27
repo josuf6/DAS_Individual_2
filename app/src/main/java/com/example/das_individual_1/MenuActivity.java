@@ -1,21 +1,18 @@
 package com.example.das_individual_1;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity  implements SalirAppDialog.ListenerDialogoSalirApp {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
+public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.ListenerDialogoSalirApp {
 
     ListView continentes;
-    String[] nombres = {"África", "América", "Asia", "Europa", "Oceanía"};
-    int[] imagenes = {R.drawable.africa, R.drawable.america, R.drawable.asia, R.drawable.europa, R.drawable.oceania};
+    String[] nombres = {"África", "América", "Asia", "Europa", "Oceanía", "Global"};
+    int[] imagenes = {R.drawable.africa, R.drawable.america, R.drawable.asia, R.drawable.europa, R.drawable.oceania, R.drawable.global};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +29,10 @@ public class MainActivity extends AppCompatActivity  implements SalirAppDialog.L
     private void continentesLVListener() {
         //Listener del ListView "continentes"
         //Dependiendo de la fila que se pulse llamará a la actividad del juego con la información del continente seleccionado
-        this.continentes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this, JuegoActivity.class);
-                intent.putExtra("continente", ((TextView)view.findViewById(R.id.nombre_continente)).getText().toString());
-                startActivity(intent);
-            }
+        this.continentes.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent(MenuActivity.this, JuegoActivity.class);
+            intent.putExtra("continente", ((TextView)view.findViewById(R.id.nombre_continente)).getText().toString());
+            startActivity(intent);
         });
     }
 
