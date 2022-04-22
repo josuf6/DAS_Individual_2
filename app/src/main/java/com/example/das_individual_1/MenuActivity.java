@@ -17,7 +17,7 @@ public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.L
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu);
 
         continentes = (ListView) findViewById(R.id.continentes); //Crea el ListView en el que se mostrarán continentes con iconos y nombres
         AdaptadorListView adaptadorLV = new AdaptadorListView(getApplicationContext(), nombres, imagenes); //Al ser un ListView personalizado se utiliza un objeto adaptador
