@@ -1,4 +1,4 @@
-package com.example.das_individual_1;
+package com.example.das_individual_1.workers;
 
 import android.content.Context;
 
@@ -16,15 +16,15 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class CrearUsuarioDB extends Worker {
-    public CrearUsuarioDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+public class HacerLoginDB extends Worker {
+    public HacerLoginDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        String direccion = "http://ec2-52-56-170-196.eu-west-2.compute.amazonaws.com/jferreras001/WEB/crear-usuario.php";
+        String direccion = "http://ec2-52-56-170-196.eu-west-2.compute.amazonaws.com/jferreras001/WEB/hacer-login.php";
         HttpURLConnection urlConnection;
 
         //Parametros que se van a enviar en la conexion

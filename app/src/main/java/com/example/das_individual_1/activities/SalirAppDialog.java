@@ -1,4 +1,4 @@
-package com.example.das_individual_1;
+package com.example.das_individual_1.activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,12 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class SalirJuegoDialog extends DialogFragment {
+public class SalirAppDialog extends DialogFragment {
 
-    ListenerDialogoSalirJuego miListener;
+    ListenerDialogoSalirApp miListener;
 
     //Interfaz para poder acceder a eventos del diálogo desde la actividad
-    public interface ListenerDialogoSalirJuego {
+    public interface ListenerDialogoSalirApp {
         void onClickSi();
     }
 
@@ -21,16 +21,16 @@ public class SalirJuegoDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        miListener = (ListenerDialogoSalirJuego) getActivity();
+        miListener = (ListenerDialogoSalirApp) getActivity();
 
         //Configurar el diálogo usando la clase builder (Título y mensaje)
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Salir al menú principal");
-        builder.setMessage("¿Deseas salir al menú principal? Se perderá el progreso de la partida actual.");
+        builder.setTitle("Salir de la aplicación");
+        builder.setMessage("¿Deseas salir de la aplicación?");
 
         //Definir botones y Listeners de los botones
         builder.setPositiveButton("Sí", (dialogInterface, i) -> {
-            miListener.onClickSi(); //Al pulsar "Sí" volver al menú principal
+            miListener.onClickSi(); //Al pulsar "Sí" salir de la aplicación
         });
 
         //No hacer nada al pulsar "No" (se cierra el diálogo)

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.das_individual_1">
-    <uses-permission android:name="android.permission.INTERNET"/>
+    package="com.example.das_individual_1" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -10,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DAS_Individual_1"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
         <activity
-            android:name=".LoginActivity"
-            android:exported="true">
+            android:name=".activities.LoginActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +22,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
-            android:launchMode="singleTask">
+            android:name=".activities.MenuActivity"
+            android:launchMode="singleTask" >
         </activity>
         <activity
-            android:name=".JuegoActivity"
+            android:name=".activities.JuegoActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTask" />
     </application>

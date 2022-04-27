@@ -1,19 +1,31 @@
-package com.example.das_individual_1;
+package com.example.das_individual_1.activities;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
+
+import com.example.das_individual_1.R;
+import com.example.das_individual_1.workers.ComprobarRecordDB;
+import com.example.das_individual_1.workers.PaisesBD;
+import com.example.das_individual_1.workers.ObtenerRecordContinenteDB;
 
 import java.util.ArrayList;
 
@@ -21,11 +33,13 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
 
     private PaisesBD gestorPaisesDB;
     private String continente;
+    private String usuario;
     private ArrayList<String> acertados = new ArrayList<>();
     private ArrayList<String> siguientePais;
     private Button btn_1;
     private Button btn_2;
     private Button btn_3;
+    private int puntuacion;
     private int btn_1Estado;
     private int btn_2Estado;
     private int btn_3Estado;
@@ -35,6 +49,8 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
     private Button btnSiguiente;
     private Boolean opcion;
     private Boolean restored;
+    private TextView points;
+    private TextView record;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +60,9 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
         btn_1 = (Button) findViewById(R.id.opcion_1_btn);
         btn_2 = (Button) findViewById(R.id.opcion_2_btn);
         btn_3 = (Button) findViewById(R.id.opcion_3_btn);
+
+        points = (TextView) findViewById(R.id.points);
+        record = (TextView) findViewById(R.id.record);
 
         //Se utilizan estados de los botones para saber en qué estado se encontraban cuando se interrumpe la actividad
         btn_1Estado = 0;
@@ -62,23 +81,63 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
             }
         }
 
+        if (usuario == null) {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                usuario = extras.getString("usuario");
+            }
+        }
+
+        this.setRecordText();
+
         gestorPaisesDB = new PaisesBD(this); //base de datos de países, continentes de los países, y nombres de archivos de las imágenes de las banderas
 
         if (this.restored == null) { //flag utilizado cuando se interrumpe la actividad (por una llamada, al salir de ella, ...)
             this.restored = false;
         }
         if (!this.restored) { //se ejecuta si no se ha interrumpido la actividad
+            this.puntuacion = 0;
+            points.setText(Integer.toString(this.puntuacion));
             this.siguienteBandera();
         }
     }
 
-    public void onClickOpcion(View v) { //Mostrar diálogo al pulsar botón "Salir"
+    private void setRecordText() {
+        Data datos = new Data.Builder()
+                .putString("usuario", this.usuario)
+                .putString("continente", this.continente)
+                .build();
+
+        OneTimeWorkRequest otwr = new OneTimeWorkRequest.Builder(ObtenerRecordContinenteDB.class).setInputData(datos).build();
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(otwr.getId())
+                .observe(this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(WorkInfo workInfo) {
+                        if (workInfo != null && workInfo.getState().isFinished()) {
+                            if (workInfo.getState().equals(WorkInfo.State.SUCCEEDED)) {
+                                if (workInfo.getOutputData().getString("datos").equals("error")) {
+                                    record.setText("null");
+                                } else {
+                                    record.setText(workInfo.getOutputData().getString("datos"));
+                                }
+                            } else {
+                                record.setText("null");
+                            }
+                        }
+                    }
+                });
+        WorkManager.getInstance(this).enqueue(otwr);
+    }
+
+    public void onClickOpcion(View v) { //Al clickar una de las opciones de respuesta
         Button btnOpcion = (Button) findViewById(v.getId());
 
         if (opcion) return; //se anula el resto del método si hay una selección hecha
         opcion = true; //se deshabilita el funcionamiento de los botones
 
         if (btnOpcion.getText().toString().equals(siguientePais.get(0))) { //en caso de acertar
+            puntuacion++; //incrementar numero de aciertos
+            points.setText(Integer.toString(puntuacion)); //Poner numero de aciertos en pantalla
             if (btnOpcion == btn_1) { //cambiar el color de la opcion seleccionada a verde (acierto)
                 btn_1Estado = 1; //este estado indica acierto en el botón (verde)
                 btn_1.setBackgroundColor(Color.GREEN);
@@ -142,6 +201,8 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
         //Guardar info
         savedInstanceState.putBoolean("restored", true);
         savedInstanceState.putString("continente", continente);
+        savedInstanceState.putString("usuario", usuario);
+        savedInstanceState.putInt("puntuacion", puntuacion);
         savedInstanceState.putStringArrayList("acertados", acertados);
         savedInstanceState.putStringArrayList("siguientePais", siguientePais);
         savedInstanceState.putInt("btn_1Estado", btn_1Estado);
@@ -152,6 +213,8 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
         savedInstanceState.putString("btn_1Text", btn_1.getText().toString());
         savedInstanceState.putString("btn_2Text", btn_2.getText().toString());
         savedInstanceState.putString("btn_3Text", btn_3.getText().toString());
+        savedInstanceState.putString("pointsText", points.getText().toString());
+        savedInstanceState.putString("recordText", record.getText().toString());
     }
 
     @Override
@@ -161,8 +224,12 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
         //Restaurar info
         restored = savedInstanceState.getBoolean("restored");
         continente = savedInstanceState.getString("continente");
+        usuario = savedInstanceState.getString("usuario");
+        puntuacion = savedInstanceState.getInt("puntuacion");
         acertados = savedInstanceState.getStringArrayList("acertados");
         siguientePais = savedInstanceState.getStringArrayList("siguientePais");
+        points.setText(savedInstanceState.getString("pointsText"));
+        record.setText(savedInstanceState.getString("recordText"));
 
         //restaurar imagen
         int resId = this.getResources().getIdentifier(siguientePais.get(1), "drawable", this.getPackageName());
@@ -220,11 +287,14 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
         }
     }
 
-    public void onClickJugar(View v) { //ocClick del botón "Volver a jugar
+    public void onClickJugar(View v) { //ocClick del botón "Volver a jugar"
+        puntuacion = 0; //resetear puntuacion
+        points.setText(Integer.toString(this.puntuacion)); //resetear marcador
         btnJugarEstado = 0; //estado que indica invisibilidad
         acertados = new ArrayList<>(); //se vacía la lista de acertados (porque se empieza una nueva partida)
         btnJugar.setVisibility(View.INVISIBLE);
         opcion = false; //se anula el flag que indica la selección de alguna opción (para cambiar el color de los botones)
+        this.setRecordText();
         this.siguienteBandera(); //mostrar siguiente bandera y opciones
     }
 
@@ -242,6 +312,9 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
 
     @Override
     public void onClickSi() { //Al pulsar "Sí" matar la actividad (vuelve al menú principal porque es la última actividad en la pila)
+        Intent intent = new Intent(JuegoActivity.this, MenuActivity.class);
+        intent.putExtra("usuario", usuario);
+        startActivity(intent);
         finish();
     }
 
@@ -313,6 +386,42 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
         btnJugarEstado = 1;
         btnJugar.setVisibility(View.VISIBLE);
         this.notificarResultado();
+        this.comprobarNuevoRecord();
+    }
+
+    private void comprobarNuevoRecord() {
+        Data datos = new Data.Builder()
+                .putString("usuario", this.usuario)
+                .putString("continente", this.continente)
+                .putInt("puntuacion", this.puntuacion)
+                .build();
+
+        OneTimeWorkRequest otwr = new OneTimeWorkRequest.Builder(ComprobarRecordDB.class).setInputData(datos).build();
+        WorkManager.getInstance(this).getWorkInfoByIdLiveData(otwr.getId())
+                .observe(this, new Observer<WorkInfo>() {
+                    @Override
+                    public void onChanged(WorkInfo workInfo) {
+                        if (workInfo != null && workInfo.getState().isFinished()) {
+                            if (workInfo.getState().equals(WorkInfo.State.SUCCEEDED)) {
+                                if (workInfo.getOutputData().getString("datos").equals("record")) {
+                                    nuevoRecord();
+                                }
+                            }
+                        }
+                    }
+                });
+        WorkManager.getInstance(this).enqueue(otwr);
+    }
+
+    private void nuevoRecord() {
+        //TODO si hay nuevo record que pasa
+        //TODO si hay nuevo record que pasa
+        //TODO si hay nuevo record que pasa
+        //TODO si hay nuevo record que pasa
+        //TODO si hay nuevo record que pasa
+        //TODO si hay nuevo record que pasa
+        //TODO si hay nuevo record que pasa
+        //TODO si hay nuevo record que pasa
     }
 
     private void notificarResultado() {

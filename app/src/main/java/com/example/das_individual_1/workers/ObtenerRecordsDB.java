@@ -1,4 +1,4 @@
-package com.example.das_individual_1;
+package com.example.das_individual_1.workers;
 
 import android.content.Context;
 
@@ -6,6 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -15,22 +21,23 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class HacerLoginDB extends Worker {
-    public HacerLoginDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+public class ObtenerRecordsDB extends Worker {
+    public ObtenerRecordsDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        String direccion = "http://ec2-52-56-170-196.eu-west-2.compute.amazonaws.com/jferreras001/WEB/hacer-login.php";
+        String direccion = "http://ec2-52-56-170-196.eu-west-2.compute.amazonaws.com/jferreras001/WEB/obtener-records.php";
         HttpURLConnection urlConnection;
 
         //Parametros que se van a enviar en la conexion
         String usuario = getInputData().getString("usuario");
-        String password = getInputData().getString("password");
-        String parametros = "usuario=" + usuario + "&password=" + password;
+        String continente = getInputData().getString("continente");
+        String parametros = "usuario=" + usuario;
         try {
             //Preparar datos de la conexion
             URL destino = new URL(direccion);

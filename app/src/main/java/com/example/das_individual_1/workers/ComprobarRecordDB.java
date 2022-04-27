@@ -1,4 +1,4 @@
-package com.example.das_individual_1;
+package com.example.das_individual_1.workers;
 
 import android.content.Context;
 
@@ -6,9 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -18,22 +15,23 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-public class ComprobarUsuarioDB extends Worker {
-    public ComprobarUsuarioDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+public class ComprobarRecordDB extends Worker {
+    public ComprobarRecordDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        String direccion = "http://ec2-52-56-170-196.eu-west-2.compute.amazonaws.com/jferreras001/WEB/comprobar-usuario.php";
+        String direccion = "http://ec2-52-56-170-196.eu-west-2.compute.amazonaws.com/jferreras001/WEB/comprobar-record.php";
         HttpURLConnection urlConnection;
 
         //Parametros que se van a enviar en la conexion
         String usuario = getInputData().getString("usuario");
-        String parametros = "usuario=" + usuario;
+        String continente = getInputData().getString("continente");
+        int puntuacion = getInputData().getInt("puntuacion", 0);
+        String parametros = "usuario=" + usuario + "&continente=" + continente + "&puntuacion=" + puntuacion;
         try {
             //Preparar datos de la conexion
             URL destino = new URL(direccion);

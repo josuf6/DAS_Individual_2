@@ -1,4 +1,4 @@
-package com.example.das_individual_1;
+package com.example.das_individual_1.workers;
 
 import android.content.Context;
 import android.database.Cursor;

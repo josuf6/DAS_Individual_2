@@ -1,27 +1,24 @@
-package com.example.das_individual_1;
+package com.example.das_individual_1.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
-import android.app.ActivityManager;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.example.das_individual_1.R;
+import com.example.das_individual_1.workers.ComprobarUsuarioDB;
+import com.example.das_individual_1.workers.CrearUsuarioDB;
+import com.example.das_individual_1.workers.HacerLoginDB;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -149,7 +146,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void procesoLogin(String pUsuario, String pPassword) {
-        //this.bt
 
         //Proceso para comprobar si el usuario introducido es correcto y, si lo es, hacer login
         Data datos = new Data.Builder()
@@ -176,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     //Abrir la actividad del menú y cerrar esta
                                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                                    intent.putExtra("usuario", (usuario));
+                                    intent.putExtra("usuario", usuario);
                                     startActivity(intent);
                                     finish();
                                 } else if (workInfo.getOutputData().getString("datos").equals("incorrecto")) { //Si los datos son incorrectos no hacer nada
