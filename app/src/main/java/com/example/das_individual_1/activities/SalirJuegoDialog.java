@@ -14,7 +14,7 @@ public class SalirJuegoDialog extends DialogFragment {
 
     //Interfaz para poder acceder a eventos del diálogo desde la actividad
     public interface ListenerDialogoSalirJuego {
-        void onClickSi();
+        void onClickSalirJuego();
     }
 
     @NonNull
@@ -30,7 +30,7 @@ public class SalirJuegoDialog extends DialogFragment {
 
         //Definir botones y Listeners de los botones
         builder.setPositiveButton("Sí", (dialogInterface, i) -> {
-            miListener.onClickSi(); //Al pulsar "Sí" volver al menú principal
+            miListener.onClickSalirJuego(); //Al pulsar "Sí" volver al menú principal
         });
 
         //No hacer nada al pulsar "No" (se cierra el diálogo)

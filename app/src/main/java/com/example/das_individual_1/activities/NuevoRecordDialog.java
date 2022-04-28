@@ -8,29 +8,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-public class SalirAppDialog extends DialogFragment {
+public class NuevoRecordDialog extends DialogFragment {
 
-    ListenerDialogoSalirApp miListener;
+    ListenerDialogoNuevoRecord miListener;
 
     //Interfaz para poder acceder a eventos del diálogo desde la actividad
-    public interface ListenerDialogoSalirApp {
-        void onClickSalirApp();
+    public interface ListenerDialogoNuevoRecord {
+        void onClickNuevoRecord();
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         super.onCreateDialog(savedInstanceState);
-        miListener = (ListenerDialogoSalirApp) getActivity();
+        miListener = (ListenerDialogoNuevoRecord) getActivity();
 
         //Configurar el diálogo usando la clase builder (Título y mensaje)
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Salir de la aplicación");
-        builder.setMessage("¿Deseas salir de la aplicación?");
+        builder.setTitle("¡Enhorabuena!");
+        builder.setMessage("Has superado tu anterior record. ¿Te gustaría sacarte una foto?");
 
         //Definir botones y Listeners de los botones
         builder.setPositiveButton("Sí", (dialogInterface, i) -> {
-            miListener.onClickSalirApp(); //Al pulsar "Sí" salir de la aplicación
+            miListener.onClickNuevoRecord(); //Al pulsar "Sí" abrir la cámara
         });
 
         //No hacer nada al pulsar "No" (se cierra el diálogo)

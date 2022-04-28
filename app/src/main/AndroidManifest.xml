@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.das_individual_1" >
+    package="com.example.das_individual_1">
+
+    <uses-feature
+        android:name="android.hardware.camera2.full"
+        android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,10 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.DAS_Individual_1"
-        android:usesCleartextTraffic="true" >
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.NuevoRecordActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +33,21 @@
         </activity>
         <activity
             android:name=".activities.MenuActivity"
-            android:launchMode="singleTask" >
-        </activity>
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.JuegoActivity"
             android:alwaysRetainTaskState="true"
             android:launchMode="singleTask" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.das_individual_1.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/paths_imagenes" />
+        </provider>
     </application>
 
 </manifest>

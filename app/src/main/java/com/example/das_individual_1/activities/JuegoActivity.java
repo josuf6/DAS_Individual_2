@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +30,7 @@ import com.example.das_individual_1.workers.ObtenerRecordContinenteDB;
 
 import java.util.ArrayList;
 
-public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog.ListenerDialogoSalirJuego {
+public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog.ListenerDialogoSalirJuego, NuevoRecordDialog.ListenerDialogoNuevoRecord {
 
     private PaisesBD gestorPaisesDB;
     private String continente;
@@ -311,7 +312,7 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
     }
 
     @Override
-    public void onClickSi() { //Al pulsar "Sí" matar la actividad (vuelve al menú principal porque es la última actividad en la pila)
+    public void onClickSalirJuego() { //Al pulsar "Sí" matar la actividad (vuelve al menú principal porque es la última actividad en la pila)
         Intent intent = new Intent(JuegoActivity.this, MenuActivity.class);
         intent.putExtra("usuario", usuario);
         startActivity(intent);
@@ -414,14 +415,18 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
     }
 
     private void nuevoRecord() {
-        //TODO si hay nuevo record que pasa
-        //TODO si hay nuevo record que pasa
-        //TODO si hay nuevo record que pasa
-        //TODO si hay nuevo record que pasa
-        //TODO si hay nuevo record que pasa
-        //TODO si hay nuevo record que pasa
-        //TODO si hay nuevo record que pasa
-        //TODO si hay nuevo record que pasa
+        //Mostrar diálogo al superar el record
+        DialogFragment dialogNuecoRecord = new NuevoRecordDialog();
+        dialogNuecoRecord.show(getSupportFragmentManager(), "dialogNuecoRecord");
+    }
+
+    @Override
+    public void onClickNuevoRecord() {
+        Intent intent = new Intent(JuegoActivity.this, NuevoRecordActivity.class);
+        intent.putExtra("usuario", this.usuario);
+        intent.putExtra("continente", this.continente);
+        intent.putExtra("puntuacion", this.puntuacion);
+        startActivity(intent);
     }
 
     private void notificarResultado() {

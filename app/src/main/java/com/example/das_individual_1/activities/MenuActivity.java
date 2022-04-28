@@ -80,7 +80,7 @@ public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.L
         this.continentes.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(MenuActivity.this, JuegoActivity.class);
             intent.putExtra("continente", ((TextView) view.findViewById(R.id.nombre_continente)).getText().toString());
-            intent.putExtra("usuario", (this.usuario));
+            intent.putExtra("usuario", this.usuario);
             startActivity(intent);
             finish();
         });
@@ -93,7 +93,7 @@ public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.L
     }
 
     @Override
-    public void onClickSi() { //Al pulsar "Sí" matar la actividad (Salir de la aplicación, porque no hay ninguna actividad más en la pila)
+    public void onClickSalirApp() { //Al pulsar "Sí" matar la actividad (Salir de la aplicación, porque no hay ninguna actividad más en la pila)
         finish();
     }
 
