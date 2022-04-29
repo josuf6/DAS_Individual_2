@@ -7,21 +7,13 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class ObtenerRecordsDB extends Worker {
     public ObtenerRecordsDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -36,7 +28,6 @@ public class ObtenerRecordsDB extends Worker {
 
         //Parametros que se van a enviar en la conexion
         String usuario = getInputData().getString("usuario");
-        String continente = getInputData().getString("continente");
         String parametros = "usuario=" + usuario;
         try {
             //Preparar datos de la conexion
@@ -69,8 +60,6 @@ public class ObtenerRecordsDB extends Worker {
                 return Result.success(resultados);
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

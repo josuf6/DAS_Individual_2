@@ -1,5 +1,14 @@
 package com.example.das_individual_1.activities;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,18 +18,6 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
-
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.das_individual_1.R;
 import com.example.das_individual_1.workers.SubirImagenDB;
@@ -67,6 +64,8 @@ public class NuevoRecordActivity extends AppCompatActivity {
     }
 
     private void ponerImagen() {
+
+        //Abrir la camara para sacar una foto. Guardar la foto con el nombre proporcionado en el directorio proporcionado
         nombrefich = usuario + "_" + continente + "_" + puntuacion;
         File directorio = this.getFilesDir();
         File fichImg = null;
@@ -98,7 +97,7 @@ public class NuevoRecordActivity extends AppCompatActivity {
         this.ponerImagen();
     }
 
-    public void onClickSubir(View v) { //ocClick del botón "Volver a jugar"
+    public void onClickSubir(View v) { //ocClick del botón "Subir imagen al servidor"
         subir_btn.setEnabled(false);
         subir_btn_enabled = 0;
 

@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +24,8 @@ import androidx.work.WorkManager;
 
 import com.example.das_individual_1.R;
 import com.example.das_individual_1.workers.ComprobarRecordDB;
-import com.example.das_individual_1.workers.PaisesBD;
 import com.example.das_individual_1.workers.ObtenerRecordContinenteDB;
+import com.example.das_individual_1.workers.PaisesBD;
 
 import java.util.ArrayList;
 
@@ -104,6 +103,8 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
     }
 
     private void setRecordText() {
+
+        //se obtiene la información del récord del usuario y se muestra en la parte superior de la pantalla
         Data datos = new Data.Builder()
                 .putString("usuario", this.usuario)
                 .putString("continente", this.continente)

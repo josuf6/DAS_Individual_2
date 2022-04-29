@@ -7,18 +7,13 @@ import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class ComprobarUsuarioDB extends Worker {
     public ComprobarUsuarioDB(@NonNull Context context, @NonNull WorkerParameters workerParams) {
@@ -65,8 +60,6 @@ public class ComprobarUsuarioDB extends Worker {
                 return Result.success(resultados);
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

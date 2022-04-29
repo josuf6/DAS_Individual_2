@@ -17,6 +17,8 @@ import androidx.work.WorkManager;
 import com.example.das_individual_1.R;
 import com.example.das_individual_1.workers.ObtenerRecordsDB;
 
+import java.util.Arrays;
+
 public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.ListenerDialogoSalirApp {
 
     private String usuario;
@@ -42,6 +44,8 @@ public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.L
     }
 
     private void obtenerRecords() {
+
+        //Se obtiene la info de los records del usuario para añadir al ListView
         Data datos = new Data.Builder()
                 .putString("usuario", this.usuario)
                 .build();
@@ -54,7 +58,7 @@ public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.L
                         if (workInfo != null && workInfo.getState().isFinished()) {
                             if (workInfo.getState().equals(WorkInfo.State.SUCCEEDED)) {
                                 if (workInfo.getOutputData().getString("datos").equals("error")) {
-                                    for (int i = 0; i < records.length; i++) records[i] = "null";
+                                    Arrays.fill(records, "null");
                                 } else {
                                     String resultado = workInfo.getOutputData().getString("datos");
                                     records = resultado.split(",");
@@ -66,7 +70,7 @@ public class MenuActivity extends AppCompatActivity  implements SalirAppDialog.L
                                     continentesLVListener(); //Configurar listener del ListView "continentes"
                                 }
                             } else {
-                                for (int i = 0; i < records.length; i++) records[i] = "null";
+                                Arrays.fill(records, "null");
                             }
                         }
                     }

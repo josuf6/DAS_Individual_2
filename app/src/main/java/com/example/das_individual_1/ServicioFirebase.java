@@ -1,17 +1,13 @@
 package com.example.das_individual_1;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Build;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -25,6 +21,8 @@ public class ServicioFirebase extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
+
+        //Mostrar notificacion de inicio de sesion al recibir mensaje FCM
         if (message.getNotification() != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //Versiones Android 8.0 y superiores
                 NotificationChannel channel = new NotificationChannel("canal", "nombre", NotificationManager.IMPORTANCE_DEFAULT);

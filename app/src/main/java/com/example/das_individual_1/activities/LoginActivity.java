@@ -1,5 +1,12 @@
 package com.example.das_individual_1.activities;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -7,14 +14,6 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.das_individual_1.R;
 import com.example.das_individual_1.workers.ComprobarUsuarioDB;
@@ -222,6 +221,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void mensajeFCM() {
+
+        //Proceso para enviar mensaje FCM
         Data datos = new Data.Builder()
                 .putString("token", this.token)
                 .putString("usuario", this.usuario)

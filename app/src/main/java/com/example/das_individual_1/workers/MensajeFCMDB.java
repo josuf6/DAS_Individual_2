@@ -3,17 +3,12 @@ package com.example.das_individual_1.workers;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.work.Data;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MensajeFCMDB extends Worker {
@@ -47,23 +42,9 @@ public class MensajeFCMDB extends Worker {
             //LLamada al servicio web
             int statusCode = urlConnection.getResponseCode();
             if (statusCode == 200) { //Si va bien
-                BufferedInputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                String line, result = "";
-                while ((line = bufferedReader.readLine()) != null) {
-                    result += line;
-                }
-
-                inputStream.close();
-
-                Data resultados = new Data.Builder()
-                        .putString("datos",result)
-                        .build();
-                return Result.success(resultados);
+                return Result.success();
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
