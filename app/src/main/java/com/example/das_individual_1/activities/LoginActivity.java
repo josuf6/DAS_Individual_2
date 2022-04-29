@@ -10,6 +10,7 @@ import androidx.work.WorkManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,9 +20,14 @@ import com.example.das_individual_1.R;
 import com.example.das_individual_1.workers.ComprobarUsuarioDB;
 import com.example.das_individual_1.workers.CrearUsuarioDB;
 import com.example.das_individual_1.workers.HacerLoginDB;
+import com.example.das_individual_1.workers.MensajeFCMDB;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private String token;
     private String usuario;
     private String password;
     private EditText usuario_txt;
@@ -42,6 +48,17 @@ public class LoginActivity extends AppCompatActivity {
         this.usuario_txt = (EditText) findViewById(R.id.usuario_txt);
         this.password_txt = (EditText) findViewById(R.id.password_txt);
         this.login_btn = (Button) findViewById(R.id.login_btn);
+
+        //Proceso para guardar token de FCM
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (task.isSuccessful()) {
+                            token = task.getResult();
+                        }
+                    }
+                });
     }
 
     public void onClickLogin(View v) {
@@ -169,9 +186,12 @@ public class LoginActivity extends AppCompatActivity {
                                 } else if (workInfo.getOutputData().getString("datos").equals("loggeado")) { //Si los datos son correctos hacer login
                                     Toast toast= Toast.makeText(getApplicationContext(),"¡Hola, " + pUsuario + "!",Toast.LENGTH_SHORT);
                                     toast.show();
+                                    
+                                    mensajeFCM();
 
                                     //Abrir la actividad del menú y cerrar esta
                                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
+                                    intent.putExtra("token", token);
                                     intent.putExtra("usuario", usuario);
                                     startActivity(intent);
                                     finish();
@@ -201,11 +221,21 @@ public class LoginActivity extends AppCompatActivity {
         WorkManager.getInstance(this).enqueue(otwr);
     }
 
+    private void mensajeFCM() {
+        Data datos = new Data.Builder()
+                .putString("token", this.token)
+                .putString("usuario", this.usuario)
+                .build();
+        OneTimeWorkRequest otwr = new OneTimeWorkRequest.Builder(MensajeFCMDB.class).setInputData(datos).build();
+        WorkManager.getInstance(this).enqueue(otwr);
+    }
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) { //para guardar el estado de la actividad (valores de variables y estados de objetos)
         super.onSaveInstanceState(savedInstanceState);
 
         //Guardar info
+        savedInstanceState.putString("token", this.token);
         savedInstanceState.putString("usuario_txt", this.usuario_txt.getText().toString());
         savedInstanceState.putString("password_txt", this.password_txt.getText().toString());
         savedInstanceState.putString("usuario", this.usuario);
@@ -220,6 +250,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         //Restaurar info
+        this.token = savedInstanceState.getString("token");
         this.usuario_txt.setText(savedInstanceState.getString("usuario_txt"));
         this.password_txt.setText(savedInstanceState.getString("password_txt"));
         this.usuario = savedInstanceState.getString("usuario");

@@ -18,6 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DAS_Individual_1"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".ServicioFirebase"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".activities.NuevoRecordActivity"
             android:exported="false"

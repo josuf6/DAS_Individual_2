@@ -431,7 +431,7 @@ public class JuegoActivity extends AppCompatActivity implements SalirJuegoDialog
 
     private void notificarResultado() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //Versiones Android 8.0 y superiores
-            NotificationChannel channel = new NotificationChannel("canal", "nombre", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel("canal", "nombre", NotificationManager.IMPORTANCE_LOW);
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             manager.createNotificationChannel(channel);
 
